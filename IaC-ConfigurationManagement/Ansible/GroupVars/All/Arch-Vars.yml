@@ -1,0 +1,12 @@
+---
+- hosts: arch-linux
+  name: "Initial checks"
+
+  vars_files:
+    - GroupVars/Arch-Vars.yml
+
+  roles:
+    - DriveSetup
+    - SoftwareInstall
+    - SecuritySetup
+    - BackupPull
