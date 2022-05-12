@@ -42,7 +42,13 @@ Combining the testing methods learned above I was able to develop my knowledge
 When working as a Security Engineer for Adarma, one of my main roles is was to generate alerts with client's splunk instances, taking in logs and working at an enterprise level
 
 ---	
-### Monitoring - Zabbix/Prometheus
+### Monitoring - Zabbix/Prometheus - 
+
+### Programming - Python/C++
+Most projects under this section is repeated in my personal code repository or in other sections of the
+##### Jira Manipulation through API - 
+This was formed of several project developed for my job at adarma,
+
 
 
 
