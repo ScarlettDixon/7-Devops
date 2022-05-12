@@ -47,7 +47,7 @@ When working as a Security Engineer for Adarma, one of my main roles is was to g
 ### Programming - Python/C++
 Most projects under this section is repeated in my personal code repository or in other sections of the
 ##### Jira Manipulation through API - 
-This was formed of several project developed for my job at adarma,
+This was formed of several project developed for my job at adarma, it focused on getting data for a client with heavy auditing procedures
 
 
 
