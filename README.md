@@ -2,55 +2,49 @@
 Code created while developing my knowledge of Devops. Although I tried to split them up for easier viewing
 All information that would give away personal or security dependant details have been stripped from the code
 
-
-
 ---
 ### IaC - Configuration Management - Ansible  - 
-Ansible is an amazing tool for configuration management, I had been interested previously in automating my Laptop's Arch Installation so that I could make sure it was clean and I was more aware of what was on it, it also helps with setting up environments and combined with Terraform setting up the infrastructure it can be an incredibly powerful tool. Several projects have been created so far.
+Ansible is an amazing tool for configuration management, I had been interested previously in automating my laptop's Arch Installation so that I could make sure it was clean and I was more aware of what was on it, it also helps with setting up environments and combined with Terraform setting up the infrastructure it can be an incredibly powerful tool. Several projects have been created so far.
 They include:
 ##### ArchInstall - 
-As I said I want. They'll all be managed using a setup of multiple different roles.
+As discussed above, my laptop setup will be managed using ansible, using multiple different roles for the different functions.
 * Setup The Drives
-* Install all Software I use
+* Install all Used Software
 * Setup Security Settings
-* Start the software/security services
+* Start all needed software/security services
 * Pull in Backed up Information
 ##### AWSSetup - 
-I've been improving my Abilities with AWS while also taking moving up the certification tree, I have several personal projects that interest me that AWS would help with and so setting them up automation to quickly deploy them for testing is a good idea.
+I've been improving my abilities with AWS while also taking moving up the certification tree, I have several personal projects that interest me and could use AWS for cloud based testing and hosting, automatic setup of these devices (after creation using terraform, discussed below) is incredibly useful.
 ##### NASSetup - 
-This code will not be included in this repository but I have also tested a number of prototype setups one my personal NAS
+Most of this code will not be included in this repository due to its sensitive nature but I have also tested a number of prototype setups on my personal NAS before being used on other devices and committed here.
 
 ---	
 ### IaC - Infrastructure Management - Terraform - 
-
+Terraform is useful for ensuring that the creation of servers systems is both automated and constant.
 ##### AWSSetup - 
+As stated above configuration of AWS can be completed using ansible but creation of these AWS test devices can be spun up using terraform, steps have been taken to not include any private information while still providing details
 
 ---	
 ### IaC - Containers and Container Management - Docker/Kubernetes -
-Continously shown in others sections, using docker has been a big part of my recent devops experience. Prior to using it I mainly used VMs, setting them up individually and manually when they used a large amount of computer resourcing to run and storage space to store was a massive pain and laden with issues. Being able to create a dockerfile once and bypass that need while being able to simply interact with these containers was an utter relief and great for workflow.
+Continously shown in others sections, using docker has been a big part of my recent devops experience. Prior to using it I mainly used VMs. These Virtual Machines used a large amount of limited resources and needed to be configured individually and manually, which was both a massive time consumer and usually laden with errors due to missed/forgotten steps. I briefly used vagrant as it has some automated configuration abilities (and in some cases where more heavyweight systems are needed I still do) but being able to create a dockerfile once and bypass manual configuratioin while also being able to create easily interactable lightweight containers was an utter relief and great for workflow.
 
 ---	
 ### CI/CD - Automated Tests - Pytest/Selenium - 
-I have used selenium in the past for web scraping and it can likely be found in my previous work,
+I have used selenium in the past for web scraping and it can likely be found in my previous work at university, but it's been really interesting to use it within web development for better devops processing.
 
 ---	
 ### CI/CD - Pipelining -  Jenkins/Gitlab -
-Combining the testing methods learned above I was able to develop my knowledge 
+Combining the testing methods learned above I was able to develop my knowledge by staring to make full devops cycles, 
 
 ---	
 ### Logging - Splunk/ELK-
-When working as a Security Engineer for Adarma, one of my main roles is was to generate alerts with client's splunk instances, taking in logs and working at an enterprise level
+While working as a Security Engineer, one of my main roles is to generate alerts for client splunk instances, taking in logs and working at an enterprise level, this has given me a lot of skills when related to writing in SPL and otherwise setting up servers for clients.
 
 ---	
 ### Monitoring - Zabbix/Prometheus - 
+Although limited, use of prometheus was succesful on my personal laptop has been quite insightful.
 
 ### Programming - Python/C++
-Most projects under this section is repeated in my personal code repository or in other sections of the
-##### Jira Manipulation through API - 
-This was formed of several project developed for my job at adarma, it focused on getting data for a client with heavy auditing procedures
-
-
-
-
-
-
+Some projects under this section are repeated scripts from my personal code repository but with the added caveat of showing off devops processes used throughouts. 
+##### Jira Manipulation through their Python API - 
+This was formed using knowledge gained during several projects developed for my job as a Security Engineer, a particular client needed code to automate data gathering for heavy auditing procedures.
