@@ -22,7 +22,7 @@ A Set of folders and files that can be used when I initially am able to SSH in. 
 ### IaC - Infrastructure Management - Terraform - 
 Terraform is useful for ensuring that the creation of servers systems is both automated and constant.
 ##### AWSSetup - 
-As stated above configuration of AWS can be completed using ansible but creation of these AWS test devices can be spun up using terraform, steps have been taken to not include any private information while still providing details
+As stated above configuration of AWS can be completed using ansible but creation of these AWS test devices can be spun up using terraform, steps have been taken to not include any private information while still providing useful details.
 
 ---	
 ### IaC - Containers and Container Management - Docker/Kubernetes -
