@@ -1,0 +1,5 @@
+---
+server_user_name: 'ubuntu'
+project_home: '/home/ubuntu'
+server_dir_mode: '0755'
+server_file_mode: '0644'

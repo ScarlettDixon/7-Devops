@@ -1,0 +1,5 @@
+---
+server_user_name: 'nas-admin'
+project_home: '/home/nas-admin'
+server_dir_mode: '0755'
+server_file_mode: '0644'

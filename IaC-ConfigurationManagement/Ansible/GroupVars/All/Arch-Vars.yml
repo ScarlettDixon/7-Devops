@@ -10,3 +10,5 @@
     - SoftwareInstall
     - SecuritySetup
     - BackupPull
+
+    # https://github.com/badele/ansible-archlinux

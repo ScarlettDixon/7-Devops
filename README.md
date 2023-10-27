@@ -15,8 +15,8 @@ As discussed above, my laptop setup will be managed using ansible, using multipl
 * Pull in Backed up Information
 ##### AWSSetup - 
 I've been improving my abilities with AWS while also taking moving up the certification tree, I have several personal projects that interest me and could use AWS for cloud based testing and hosting, automatic setup of these devices (after creation using terraform, discussed below) is incredibly useful.
-##### NASSetup - 
-Most of this code will not be included in this repository due to its sensitive nature but I have also tested a number of prototype setups on my personal NAS before being used on other devices and committed here.
+##### NAS-Server-Ansible - 
+A Set of folders and files that can be used when I initially am able to SSH in. This can install key software and setup different areas of the system, and will contain some of my experiments in getting different services running. Some of this code will not be included in this repository due to its sensitive nature but I will try to make it as complete as possible.
 
 ---	
 ### IaC - Infrastructure Management - Terraform - 

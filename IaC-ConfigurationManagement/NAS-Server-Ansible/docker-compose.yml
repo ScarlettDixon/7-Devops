@@ -1,0 +1,62 @@
+---
+version: '3.3'
+services:
+    overseer:
+      container_name: overseerr
+      image: linuxserver/overseerr
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/London
+      volumes:
+        - '.overseerr:/config'
+      ports:
+        - '5055:5055'
+      restart: unless-stopped
+
+    heimdall:
+      container_name: heimdall
+      image: linuxserver/heimdall
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/London
+      volumes:
+        - '.heimdall:/config'
+      ports:
+        - '8090:80'
+      restart: unless-stopped
+
+    jellyfin:
+      container_name: jellyfin
+      image: linuxserver/jellyfin
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/London
+      ports:
+        - '8096:8096'
+      devices:
+        - '/dev/dri/renderD128:/dev/dri/renderD128'
+        - '/dev/dri/card0:/dev/dri/card0'
+      volumes:
+        - '.jellyfin:/config'
+        - '.media:/data/media'
+      restart: unless-stopped
+
+    plex:
+      container_name: plex
+      image: linuxserver/plex
+      ports:
+        - '32400:32400'
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - Europe/London
+      devices:
+        - '/dev/dri/renderD128:/dev/dri/renderD128'
+        - '/dev/dri/card0:/dev/dri/card0'
+      volumes:
+        - '.plex:/config'
+        - '.media:/data/media'
+      restart: unless-stopped

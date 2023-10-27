@@ -1,0 +1,44 @@
+---
+- hosts: nasether
+  name: "Initial checks"
+
+  vars_files:
+    - GroupVars/nas-vault.yml
+    - GroupVars/server-vars.yml
+
+  roles:
+    - setup
+  tasks:
+
+    - name: "Make directories and files"
+      file:
+        path: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { dest: '{{project_home}}/server', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media' , mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/compose', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/audiobooks', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/books', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/incomplete', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/movies', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/music', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/torrents/tv', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media/audiobooks', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media/books', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media/movies', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media/music', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/media/tv', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/compose/adguard-home', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/compose/media-server', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/ansible', mode: '{{server_dir_mode}}', state: directory}
+        - { dest: '{{project_home}}/server/compose/media-server/docker-compose.yml', mode: '{{server_file_mode}}', state: touch}
+        - { dest: '{{project_home}}/server/compose/adguard-home/docker-compose.yml', mode: '{{server_file_mode}}', state: touch}
+        - { dest: '{{project_home}}/ansible/setup_output.txt', mode: '{{server_file_mode}}', state: touch}
+        
+    
+    
+    - include_roles: docker
+    - include_roles: adguard

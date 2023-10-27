@@ -1,0 +1,32 @@
+---
+- hosts: nasether
+  name: "Initial checks"
+
+  vars_files:
+    - GroupVars/nas-vault.yml
+    - GroupVars/server-vars.yml
+
+  tasks:
+    - name: "Ping the local system"
+      ping:
+        
+    - name: "Remove useless packages from the cache"
+      apt:
+        autoclean: yes
+
+    - name: "Remove dependencies that are no longer required"
+      apt:
+        autoremove: yes
+
+    - name: "Disable Docker"
+      service:
+        name: docker
+        state: stopped
+        enabled: no
+
+    -name: "Delete Server Directories"
+        file:
+        path: {{item.dest}}
+        state: absent
+        with_items:
+        - { dest: '/~/server'}
