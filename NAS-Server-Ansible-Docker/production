@@ -1,5 +1,5 @@
 [nasether]
-192.168.0.18 
+192.168.0.200
 #192.168.0.19
 
 [nasether:vars]
@@ -17,13 +17,4 @@ ansible_connection=ssh
 ansible_user=ubuntu 
 ansible_become=yes  
 ansible_become_method=sudo
-ansible_ssh_private_key_file=../AWSKeys/AWSKey.pem 
-
-[arch-linux]
-127.0.0.1
-
-[arch-linux:vars]
-ansible_connection=ssh 
-ansible_user=scarlett
-ansible_become=yes  
-ansible_become_method=sudo
+ansible_ssh_private_key_file=../AWSKeys/AWSKey.pem
