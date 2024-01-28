@@ -1,0 +1,7 @@
+---
+  - name: Ensure Connection
+    ansible.builtin.debug:
+      msg: Connected Successfully
+
+  - name: "Ping the local system"
+    ping:

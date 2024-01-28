@@ -1,0 +1,3 @@
+---
+- import_playbook: nas-server.yml
+- import_playbook: testing/test-server.yml

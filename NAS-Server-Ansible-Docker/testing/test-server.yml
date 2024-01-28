@@ -1,0 +1,21 @@
+---
+- name: Testing Ansible Tasks
+  hosts: all
+
+  vars_files:
+    - group_vars/test-server-vars.yml
+
+  roles:
+# --- Setup ---
+    - role: setup
+      tags: [setup]
+      when: include_setup | default(False)
+
+    - role: low_power
+      tags: [power]
+      when: include_low_power | default(False)
+    
+# --- Disable/Shutdown ---
+    - role: remove
+      tags: [power, disable, shutdown]
+      when: include_remove | default(False)

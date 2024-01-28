@@ -1,0 +1,20 @@
+[nasether]
+192.168.0.200
+#192.168.0.19
+
+[nasether:vars]
+ansible_connection=ssh 
+ansible_user=nas-admin 
+ansible_become=yes  
+ansible_become_method=sudo 
+ansible_become_pass="{{ vault_nas_password }}"
+
+[aws]
+13.40.156.4
+
+[aws:vars]
+ansible_connection=ssh 
+ansible_user=ubuntu 
+ansible_become=yes  
+ansible_become_method=sudo
+ansible_ssh_private_key_file=../AWSKeys/AWSKey.pem

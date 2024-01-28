@@ -1,0 +1,60 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Description: vagrantfile used to create Virtual Machines and then run the ansible file against them.
+# Author: Scarlett Dixon
+# Bibliography: Mutliple Websites and tutorials over several months.
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.require_version ">= 1.6.0"
+
+boxes = [
+
+    # {
+    #     :name => "centos01",
+    #     # ammend as per your machine nat network setting
+    #     :eth1 => "192.168.56.10",
+    #     :mem => "1024",
+    #     :cpu => "1",
+    #     :image => "centos/7"
+    # },
+    {
+        :name => "ubuntu01",
+        # ammend as per your machine nat network setting
+        :eth1 => "192.168.56.11",
+        :nm => "255.255.0.0",
+        :mem => "2048",
+        :cpu => "2",
+        :image => "ubuntu/bionic64",
+        :bridge => "wlp61s0"
+    }
+]
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    boxes.each do |opts|
+        config.vm.define opts[:name] do |config|
+            config.vm.box = opts[:image]
+            config.vm.hostname = opts[:name]
+            config.vm.provider "virtualbox" do |v|
+                v.customize ["modifyvm", :id, "--memory", opts[:mem]]
+                v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+            end
+            #config.vm.network :private_network, ip: opts[:eth1]
+            #config.vm.network "public_network", bridge: "BRIDGE"
+            config.vm.network "public_network", ip: opts[:eth1], netmask: opts[:nm], bridge: opts[:bridge]
+        end
+        config.vm.provider :libvirt do |libvirt|
+            libvirt.driver = "kvm"
+        end
+        # config.vm.provision:shell, inline: <<-SHELL
+        #     echo "root:rootroot" | sudo chpasswd
+        #     sudo timedatectl set-timezone Europe/London
+        # SHELL
+        config.vm.provision "ansible" do |ansible|
+            ansible.verbose = "v"
+            ansible.playbook = "test-server.yml"
+            ansible.tags = "setup, power"
+        end
+        # config.vm.provision:shell, path: "scripts/bootstrap.sh"
+    end
+end
