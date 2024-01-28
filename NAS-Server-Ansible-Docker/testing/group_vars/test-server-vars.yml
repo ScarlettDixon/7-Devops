@@ -1,6 +1,6 @@
 ---
-server_user_name: 'nas-admin'
-project_home: '/home/nas-admin'
+test_server_user_name: 'vagrant'
+test_project_home: '/home/vagrant'
 server_dir_mode: '0755'
 server_file_mode: '0644'
 
@@ -8,5 +8,5 @@ server_file_mode: '0644'
 
 # Startup and Disable Roles
 include_setup: false
-include_low_power: false
+include_low_power: true
 include_remove: false

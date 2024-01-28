@@ -1,0 +1,23 @@
+---
+- name: "Removing everything from the system"
+  block:
+  - name: "Remove useless packages from the cache"
+    apt:
+      autoclean: yes
+
+  - name: "Remove dependencies that are no longer required"
+    apt:
+      autoremove: yes
+
+  - name: "Disable Docker"
+    service:
+      name: docker
+      state: stopped
+      enabled: no
+
+  - name: "Delete Server Directories"
+    file:
+    path: {{item.dest}}
+    state: absent
+    with_items:
+    - { dest: '/~/server'}
