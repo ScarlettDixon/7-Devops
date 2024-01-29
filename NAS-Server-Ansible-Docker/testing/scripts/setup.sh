@@ -13,7 +13,7 @@ if [[ -z "$1" ]];
 then
     $bridge="wlp61s0"
 else
-    $bridge="eth0"
+    $bridge=$1
 fi
 
 

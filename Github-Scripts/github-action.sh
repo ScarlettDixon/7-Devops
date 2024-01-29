@@ -14,7 +14,7 @@ function AS01(){
 	cd "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/"
 	echo "${PWD}"
 	ls -alh ;
-    bash setup.sh ;
+    bash setup.sh eth0;
 }
 
 function main(){
