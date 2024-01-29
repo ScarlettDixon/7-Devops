@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             end
             #config.vm.network :private_network, ip: opts[:eth1]
             #config.vm.network "public_network", bridge: "BRIDGE"
-            config.vm.network "public_network", ip: opts[:eth1], netmask: opts[:nm], bridge: opts[:bridge]
+            config.vm.network "public_network", ip: opts[:eth1], netmask: opts[:nm], bridge: ARGV[1]
         end
         config.vm.provider :libvirt do |libvirt|
             libvirt.driver = "kvm"

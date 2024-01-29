@@ -1,19 +1,20 @@
 #!/bin/bash
-# Description: A script to be used with Github Actions to install Vagrant for use in the linked test
+# Description: A script to be used with Github Actions to install complete needed tasks so the workflows can run effectively.
 # Author: Scarlett Dixon
-# Bibliography: https://dev.to/vumdao/create-an-ubuntu-20-04-server-using-vagrant-3d2i
-
-
-
-
+# Bibliography: N/A
 
 function AS01(){
     echo "---Ansible Staging 01 - NAS Testing---" ;
     wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg ;
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list ;
     sudo apt update && sudo apt install vagrant ;
-	echo "$(PWD)"
-    sh "./${PWD}/../NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
+	sudo apt --yes --allow-change-held-packages install virtualbox 
+	#virtualbox-ext-pack
+	#vagrant init ;
+	cd "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/"
+	echo "${PWD}"
+	ls -alh ;
+    bash "setup.sh" "eth0";
 }
 
 function main(){
