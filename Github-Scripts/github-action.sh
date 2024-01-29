@@ -10,7 +10,7 @@ function AS01(){
     sudo apt update && sudo apt install vagrant ;
 	echo "${PWD}"
 	ls -alh ;
-	#vagrant init ;
+	vagrant init ;
     bash "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
 }
 
