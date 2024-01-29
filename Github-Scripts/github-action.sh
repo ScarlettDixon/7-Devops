@@ -1,11 +1,7 @@
 #!/bin/bash
-# Description: A script to be used with Github Actions to install Vagrant for use in the linked test
+# Description: A script to be used with Github Actions to install complete needed tasks so the workflows can run effectively.
 # Author: Scarlett Dixon
-# Bibliography: https://dev.to/vumdao/create-an-ubuntu-20-04-server-using-vagrant-3d2i
-
-
-
-
+# Bibliography: N/A
 
 function AS01(){
     echo "---Ansible Staging 01 - NAS Testing---" ;
