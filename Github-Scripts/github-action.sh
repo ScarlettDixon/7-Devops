@@ -9,7 +9,8 @@ function AS01(){
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list ;
     sudo apt update && sudo apt install vagrant ;
 	echo "${PWD}"
-    sh ".${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
+	ls -alh ;
+    sh "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
 }
 
 function main(){
