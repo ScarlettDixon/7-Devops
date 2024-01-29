@@ -7,6 +7,15 @@ workdir=..;
 running="The VM is running";
 off="The VM is powered off"
 status=$(vagrant status)
+bridge=""
+
+if [[ -z "$1" ]]; 
+then
+    $bridge="wlp61s0"
+else
+    $bridge="eth0"
+fi
+
 
 cd $workdir;
 
@@ -18,7 +27,7 @@ then
     vagrant provision;
 else
     echo "---Vagrant Setting Up---"
-    vagrant up;
+    vagrant up $bridge;
 fi
 
 echo $status;
@@ -31,7 +40,7 @@ if [[ $status =~ $off ]];
 then
     echo "----Seemingly Off, Attempting Set Up---"
     vagrant reload;
-    vagrant up;
+    vagrant up $bridge;
 fi
 
 
