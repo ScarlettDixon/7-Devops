@@ -3,17 +3,17 @@
 # Author: Scarlett Dixon
 # Bibliography: N/A
 
-workdir=..;
-running="The VM is running";
-off="The VM is powered off"
-status=$(vagrant status)
-bridge=""
+workdir=.. ;
+running="The VM is running" ;
+off="The VM is powered off" ;
+status=$(vagrant status) ;
+bridge="" ;
 
 if [[ -z "$1" ]]; 
 then
-    $bridge="wlp61s0"
+    $bridge="wlp61s0" ;
 else
-    $bridge="${1}"
+    $bridge="eth0" ;
 fi
 
 
