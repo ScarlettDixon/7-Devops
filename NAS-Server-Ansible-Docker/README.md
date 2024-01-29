@@ -11,5 +11,8 @@ These all related to setting up or tearing down the NAS, they will likely be use
 #### Testing Space
 Designed to ensure that scripts can be run on a test machine before going into production, includes a vagrantfile that can run the test-server.yml to ensure it functions correctly.
 
-#### Docker Container initialising
+#### Docker Container Initialising
 Starts all containers, including jellyfin, heimdall and plex
+
+#### Github Actions Tests
+To ensure the code is functional and able to be put into Production, github actions have been added to allow CI/CD pipelines to be automated

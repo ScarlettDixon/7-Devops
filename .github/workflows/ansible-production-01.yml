@@ -1,0 +1,13 @@
+name: Ansible Production 01 - NAS
+run-name: ${{ github.actor }} has pushed to the Ansible Production area used for NAS development
+on: 
+  push:
+    branches:
+      - 'ansible-production-01'
+jobs:
+  Run-Testing-Script:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout Branch"
+        uses: 'actions/checkout@v4'

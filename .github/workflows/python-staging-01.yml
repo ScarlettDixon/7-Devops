@@ -1,0 +1,13 @@
+name: Python Staging 01 - Laptop API
+run-name: ${{ github.actor }} has pushed to the Python Staging area used for Laptop API development
+on: 
+  push:
+    branches:
+      - 'python-staging-01'
+jobs:
+  Run-Testing-Script:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout Branch"
+        uses: 'actions/checkout@v4'
