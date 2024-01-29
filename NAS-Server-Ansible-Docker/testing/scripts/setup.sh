@@ -12,7 +12,7 @@ cd $workdir;
 
 echo "$PWD";
 
-if [ $status =~ $running ];
+if [[ $status =~ $running ]];
 then
     echo "----Provisioning---"
     vagrant provision;
