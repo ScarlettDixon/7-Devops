@@ -5,25 +5,24 @@ on:
     branches:
       - 'ansible-staging-01'
 jobs:
-  Explore-GitHub-Actions:
+  Run-Testing-Script:
     runs-on: ubuntu-latest
     steps:
 
       - name: "Checkout Branch"
         uses: 'actions/checkout@v4'
 
+      - name: "Display the Working Directory"
+        run: echo "The working directory is - ${PWD}"
+
       - name: "Install Python"
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-          cache: 'pip' 
 
       - name: "Install Ansible Dependencies"
         run: pip install ansible-core
 
-      - name: "Display the Working Directory"
-        run: echo "The working directory is - ${PWD}"
-      
       - name: "Run Test Setup Script"
         run: "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh"
 
