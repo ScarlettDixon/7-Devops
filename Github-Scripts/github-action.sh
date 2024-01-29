@@ -11,7 +11,7 @@ function AS01(){
 	echo "${PWD}"
 	ls -alh ;
 	#vagrant init ;
-    sh "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
+    bash "${PWD}/NAS-Server-Ansible-Docker/testing/scripts/setup.sh" ;
 }
 
 function main(){
