@@ -13,4 +13,6 @@ vagrant halt;
 
 #vagrant suspend;
 
+#vagrant destroy;
+
 echo $status;

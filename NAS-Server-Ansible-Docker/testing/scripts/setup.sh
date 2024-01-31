@@ -11,28 +11,29 @@ bridge="" ;
 
 if [[ -z "$1" ]]; 
 then
-    $bridge="wlp61s0" ;
+    bridge="wlp61s0" ;
 else
-    $bridge="eth0" ;
+    bridge="$1" ;
 fi
 
 
 cd $workdir;
 
-echo "$PWD";
+#echo "$PWD";
 
 if [[ $status =~ $running ]];
 then
     echo "----Provisioning---"
-    vagrant provision;
+    vagrant provision ;
 else
     echo "---Vagrant Setting Up---"
-    vagrant up $bridge;
+    ENV_BRIDGE="$bridge" vagrant up ;
+    vagrant provision ;
 fi
 
-echo $status;
+#echo $status;
 
-vagrant ssh-config;
+#vagrant ssh-config;
 
 sleep 10;
 
@@ -40,7 +41,7 @@ if [[ $status =~ $off ]];
 then
     echo "----Seemingly Off, Attempting Set Up---"
     vagrant reload;
-    vagrant up $bridge;
+    ENV_BRIDGE="$bridge" vagrant up ;
 fi
 
 

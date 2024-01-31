@@ -7,6 +7,8 @@ server_file_mode: '0644'
 #---Roles to include---
 
 # Startup and Disable Roles
-include_setup: false
-include_low_power: true
+include_setup: true
+include_low_power: false
+include_dashboard: true
 include_remove: false
+

@@ -1,5 +1,5 @@
 ---
-- name: Docker Setup Tasks
+- name: "Docker Setup Tasks"
   tags: docker
   become: True
   block:
@@ -8,12 +8,12 @@
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
 
-  - name: add docker repository to apt
+  - name: "Add Docker repository to apt"
     apt_repository:
       repo: deb https://download.docker.com/linux/ubuntu bionic stable
       state: present
 
-  - name: install docker
+  - name: "Install Docker - ce, ce-cli and container.io"
     apt:
       name: "{{item}}"
       state: latest
@@ -22,6 +22,13 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
+
+  - name: "Install Docker Module for Python"
+    pip:
+      name: "{{item}}"
+    loop:
+      - docker
+      #- docker-compose
 
   - name: "Enable Docker Service"
     service:
@@ -46,19 +53,19 @@
 
   - debug: var=group_output
 
-  - name: Install docker-compose
+  - name: "Install docker-compose"
     get_url:
       url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
       dest: /usr/local/bin/docker-compose
       mode: 'u+x,g+x'
 
-  - name: Change file ownership, group and permissions
+  - name: "Change file ownership, group and permissions"
     ansible.builtin.file:
       path: /usr/local/bin/docker-compose
       owner: "{{test_server_user_name}}"
       group: "{{test_server_user_name}}"
 
   rescue:
-  - name: Print when errors occur
+  - name: "Print when errors occur"
     ansible.builtin.debug:
       msg: 'There has been an error when attempting to setup the docker portion of the setup role, please edit and try again'

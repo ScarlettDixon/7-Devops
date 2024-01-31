@@ -1,0 +1,35 @@
+---
+- name: Run using a project directory
+  tags: [dashy]
+  block:
+  - name: Create and start dashy services
+    docker_container:
+      name: 'dashy'
+      image: "lissy93/dashy"
+      pull: true
+      state: 'started'
+      env:
+        "UID": "1000"
+        "GID": "1000"
+        "NODE_ENV" : "production"
+      volumes:
+        - "dashy-config.yml:/app/public/conf.yml"
+      ports:
+        - 4000:80
+      restart_policy: unless-stopped
+      healthcheck:
+        test: ['CMD', 'node', '/app/services/healthcheck']
+        interval: 1m30s
+        retries: 3
+        start_period: 40s
+        timeout: 10s
+  rescue:
+  - name: Get info on docker host and list images
+    community.docker.docker_host_info:
+      images: true
+      disk_usage: true
+    register: result
+  
+  - name: Show host information
+    ansible.builtin.debug:
+      var: result.host_info

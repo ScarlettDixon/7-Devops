@@ -2,7 +2,8 @@
 # vi: set ft=ruby :
 # Description: vagrantfile used to create Virtual Machines and then run the ansible file against them.
 # Author: Scarlett Dixon
-# Bibliography: Mutliple Websites and tutorials over several months.
+# Bibliography:
+# - 
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -41,7 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             end
             #config.vm.network :private_network, ip: opts[:eth1]
             #config.vm.network "public_network", bridge: "BRIDGE"
-            config.vm.network "public_network", ip: opts[:eth1], netmask: opts[:nm], bridge: ARGV[1]
+            config.vm.network "public_network", ip: opts[:eth1], netmask: opts[:nm], bridge: ENV['ENV_BRIDGE']
         end
         config.vm.provider :libvirt do |libvirt|
             libvirt.driver = "kvm"
@@ -50,10 +51,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         #     echo "root:rootroot" | sudo chpasswd
         #     sudo timedatectl set-timezone Europe/London
         # SHELL
+        config.vm.synced_folder ".", "/vagrant"
+        config.vm.provision "shell", inline: "cp /vagrant/roles/dashboard/tasks/dashy-config.yml ~/dashy-config.yml"
+
+        #config.vm.provision "file", source: "./roles/dashboard/tasks/dashy-config.yml", destination: "~/dashy-config.yml"
         config.vm.provision "ansible" do |ansible|
             ansible.verbose = "v"
             ansible.playbook = "test-server.yml"
-            ansible.tags = "setup, power"
+            ansible.tags = "setup, dashboard"
         end
         # config.vm.provision:shell, path: "scripts/bootstrap.sh"
     end
