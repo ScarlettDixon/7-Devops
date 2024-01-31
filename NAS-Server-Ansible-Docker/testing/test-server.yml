@@ -15,6 +15,15 @@
       tags: [power]
       when: include_low_power | default(False)
     
+# --- Dashboard ---
+    - role: dashboard
+      tags: [display, dashboard]
+      when: include_dashboard | default(False)
+
+# --- Media ---
+
+# --- Services ---
+
 # --- Disable/Shutdown ---
     - role: remove
       tags: [power, disable, shutdown]
