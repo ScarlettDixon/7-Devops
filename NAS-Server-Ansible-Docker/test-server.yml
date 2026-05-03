@@ -1,0 +1,44 @@
+---
+- name: Testing Ansible Tasks
+  hosts: all
+
+  vars_files:
+    - group_vars/test-server-vars.yml
+
+  roles:
+# --- 000-Connect ---
+    - role: 000-connect
+      tags: [connect]
+      when: include_connect | default(False)
+      vars:
+        include_001: 'true'
+# --- 100-Setup ---
+    - role: 100-setup
+      tags: [setup, 100]
+      when: include_setup | default(False)
+      vars:
+        include_101: 'true'
+        include_102: 'true'
+# --- 200-Containers ---
+    - role: 200-containers
+      tags: [docker, containers, 200]
+      when: include_containers | default(False)
+      vars:
+        include_201: 'true'
+        include_202: 'true'
+        include_203: 'true'
+        include_204: 'true'
+        include_205: 'false'
+# --- 300-Configuration ---
+    - role: 300-configuration
+      tags: [config, 300]
+      when: include_configuration | default(False)
+# --- 800-Disable/Shutdown ---
+    - role: 800-removal
+      tags: [power, disable, shutdown, 800]
+      when: include_remove | default(False)
+# --- 900-Testing ---
+    - role: 900-testing
+      tags: [testing, 900]
+      when: include_testing | default(False)
+...

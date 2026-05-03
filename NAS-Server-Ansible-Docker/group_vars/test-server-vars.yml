@@ -1,0 +1,23 @@
+---
+server_user_name: 'nas-admin'
+project_home: '/srv'
+server_dir_mode: '0755'
+server_file_mode: '0644'
+
+#---Roles to include---
+
+# Startup and Disable Roles
+#000
+include_connect: true
+#100
+include_setup: true
+#200
+include_containers: true
+#300
+include_configuration: false
+#800
+include_remove: false
+#900
+include_testing: false
+...
+

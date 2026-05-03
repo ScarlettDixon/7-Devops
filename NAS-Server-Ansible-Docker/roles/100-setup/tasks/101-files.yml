@@ -1,0 +1,38 @@
+---
+- name: File and Folder Creation Tasks
+  tags: [filefolder]
+  block:
+  - name: "Make directories and files"
+    file:
+      path: "{{ item.dest }}"
+      mode: "{{ item.mode }}"
+      state: "{{ item.state }}"
+    with_items:
+      - { dest: '{{ project_home }}', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/compose', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/audiobooks', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/books', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/incomplete', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/movies', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/music', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/torrents/tvshows', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media/audiobooks', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media/books', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media/movies', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media/music', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/media/tvshows', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/compose/adguard-home', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/compose/media-server', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/ansible', mode: '{{server_dir_mode}}', state: directory}
+      - { dest: '{{ project_home }}/compose/media-server/docker-compose.yml', mode: '{{server_file_mode}}', state: touch}
+      - { dest: '{{ project_home }}/compose/adguard-home/docker-compose.yml', mode: '{{server_file_mode}}', state: touch}
+      - { dest: '{{ project_home }}/ansible/setup_output.txt', mode: '{{server_file_mode}}', state: touch}
+
+  - name: "Write setup to file"
+    ansible.builtin.copy:
+      content: "{{ ansible_facts }}"
+      dest: "{{ project_home }}/ansible/setup_output.txt"
+      mode: "755"
+...

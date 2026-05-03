@@ -1,0 +1,23 @@
+---
+- name: "200 - containers"
+  block:
+    - name: 'Include Default Docker Task'
+      ansible.builtin.include_tasks: "201-docker-default.yml"
+      when: include_201 | default(False)
+
+    - name: 'Include Docker Service Task'
+      ansible.builtin.include_tasks: "202-docker-service.yml"
+      when: include_202| default(False)
+
+    - name: 'Include Docker Compose Task'
+      ansible.builtin.include_tasks: "203-compose.yml"
+      when: include_203 | default(False)
+
+    - name: 'Include Docker User Task'
+      ansible.builtin.include_tasks: "204-docker-users.yml"
+      when: include_204| default(False)
+
+    - name: 'Include Docker Persistence Task'
+      ansible.builtin.include_tasks: "205-persistence.yml"
+      when: include_205| default(False)
+...

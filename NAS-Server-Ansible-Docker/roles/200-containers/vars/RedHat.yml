@@ -1,0 +1,10 @@
+---
+redhat: true
+rpm: true
+yum: true
+
+docker_obsolete_packages:
+  - 'docker'
+  - 'docker-common'
+  - 'docker-engine'
+...

@@ -1,0 +1,13 @@
+---
+# 000:
+- name: Ensure Connection
+  ansible.builtin.debug:
+    msg: "Connected Successfully"
+
+- name: Ping the local system
+  ansible.builtin.ping: null
+
+- name: Print all available facts
+  ansible.builtin.debug:
+    var: ansible_facts
+...

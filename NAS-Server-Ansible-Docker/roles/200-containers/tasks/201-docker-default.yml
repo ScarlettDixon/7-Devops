@@ -1,0 +1,239 @@
+---
+- name: "Docker Setup Tasks"
+  tags: [setup, docker]
+  block:
+  - name: "Load OS-specific variables"
+    include_vars: "{{ lookup('first_found', params) }}"
+    vars:
+      params:
+        files:
+          - '{{ ansible_distribution }}.yml'
+          - '{{ ansible_os_family }}.yml'
+          - '{{ ansible_pkg_mgr }}.yml'
+          - main.yml
+        paths:
+          - 'vars'
+
+  - name: "Create Docker group"
+    ansible.builtin.group:
+      name: docker
+      state: present
+
+  - name: Ensure old versions of Docker are not installed.
+    package:
+      name: "{{ docker_obsolete_packages }}"
+      state: absent
+
+# ---------
+
+- name: "Debian/Ubuntu Specific Tasks"
+  tags: [debian, ubuntu, apt, docker]
+  block:
+  - name: Ensure apt key is not present in trusted.gpg.d
+    ansible.builtin.file:
+      path: /etc/apt/trusted.gpg.d/docker.asc
+      state: absent
+
+  - name: Ensure old apt source list is not present in /etc/apt/sources.list.d
+    ansible.builtin.file:
+      path: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+      state: absent
+
+  - name: "Ensure the repo referencing the previous trusted.gpg.d key is not present"
+    apt_repository:
+      repo: "deb [arch={{ docker_apt_arch }} signed-by=/etc/apt/trusted.gpg.d/docker.asc] {{ docker_repo_url }}/{{ docker_apt_ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_apt_release_channel }}"
+      state: absent
+      filename: "{{ docker_apt_filename }}"
+      update_cache: true
+
+  - name: "Add Docker GPG key"
+    ansible.builtin.get_url:
+      url: "{{ docker_apt_gpg_key }}"
+      dest: /etc/apt/keyrings/docker.asc
+      mode: "0644"
+      force: false
+      checksum: "{{ docker_apt_gpg_key_checksum | default(omit) }}"
+    register: add_repository_key
+    ignore_errors: "{{ docker_apt_ignore_key_error }}"
+
+  - name: Ensure curl is present (on older systems without SNI).
+    package: name=curl state=present
+    when: add_repository_key is failed and docker_add_repo | bool
+
+  - name: Add Docker apt key (alternative for older systems without SNI).
+    shell: >
+      curl -sSL {{ docker_apt_gpg_key }} | apt-key add -
+    when: add_repository_key is failed and docker_add_repo | bool
+
+  - name: "Add Docker Repository"
+    apt_repository:
+      repo: "{{ docker_apt_repository }}"
+      state: present
+      filename: "{{ docker_apt_filename }}"
+      update_cache: true
+
+  - name: Ensure directory exists for /etc/apt/keyrings
+    file:
+      path: /etc/apt/keyrings
+      state: directory
+      mode: "0755"
+
+  when: docker_add_repo | default(False) and apt | default(False)
+
+  rescue:
+    - name: Print when errors occur
+      ansible.builtin.debug:
+        msg: 'ERROR - Apt-specific portion of the container role - Please edit and try again'
+
+# ---------
+
+- name: "Redhat Specific Tasks"
+  tags: [redhat, yum, docker]
+  block:
+  - name: "Add Docker GPG key"
+    ansible.builtin.rpm_key:
+      key: "{{ docker_yum_gpg_key }}"
+      state: present
+
+  - name: Add Docker repository.
+    get_url:
+      url: "{{ docker_yum_repo_url }}"
+      dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: "Configure Docker Nightly repo"
+    ini_file:
+      dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
+      section: 'docker-{{ docker_edition }}-nightly'
+      option: enabled
+      value: '{{ docker_yum_repo_enable_nightly }}'
+      mode: 0644
+      no_extra_spaces: true
+
+  - name: Configure Docker Test repo.
+    ini_file:
+      dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
+      section: 'docker-{{ docker_edition }}-test'
+      option: enabled
+      value: '{{ docker_yum_repo_enable_test }}'
+      mode: 0644
+      no_extra_spaces: true
+
+  - name: "Configure containerd on RHEL 8"
+    block:
+      - name: Ensure runc is not installed
+        package:
+          name: runc
+          state: absent
+
+      - name: "Ensure container-selinux is installed"
+        package:
+          name: container-selinux
+          state: present
+
+      - name: "Ensure containerd.io is installed"
+        package:
+          name: containerd.io
+          state: present
+    when: ansible_distribution_major_version | int == 8
+  
+  when: docker_add_repo | default(False) and yum | default(False)
+
+  rescue:
+    - name: Print when errors occur
+      ansible.builtin.debug:
+        msg: 'ERROR - Yum-specific portion of the container role - Please edit and try again'
+
+# ---------
+
+- name: "Package Installation"
+  tags: [install, docker]
+  block:
+  - name: "Install Docker Dependancies"
+    package:
+      name: "{{ docker_deps }}"
+      state: "{{ docker_deps_state }}"
+
+  - name: "Install Docker packages"
+    package:
+      name: "{{ docker_packages }}"
+      state: "{{ docker_packages_state }}"
+    notify: restart docker
+    ignore_errors: "{{ ansible_check_mode }}"
+    when: "ansible_version.full is version_compare('2.12', '<')"
+
+  - name: "Install Docker packages (with downgrade option)"
+    package:
+      name: "{{ docker_packages }}"
+      state: "{{ docker_packages_state }}"
+      allow_downgrade: true
+    notify: restart docker
+    ignore_errors: "{{ ansible_check_mode }}"
+    when: "ansible_version.full is version_compare('2.12', '>=')"
+
+  # - name: "Install Docker Module for Python"
+  #   pip:
+  #     name: "{{ item }}"
+  #   loop:
+  #     - docker
+  #     #- docker-compose
+
+  rescue:
+    - name: Print when errors occur
+      ansible.builtin.debug:
+        msg: 'ERROR - Install-specific portion of the container role - Please edit and try again'
+
+# ---------
+
+- name: "Ensure /etc/docker/ directory exists"
+  file:
+    path: /etc/docker
+    state: directory
+    mode: "0755"
+  when: docker_daemon_options.keys() | length > 0
+
+- name: "Configure Docker daemon options"
+  copy:
+    content: "{{ docker_daemon_options | to_nice_json }}"
+    dest: /etc/docker/daemon.json
+    mode: "0644"
+  when: docker_daemon_options.keys() | length > 0
+  notify: restart docker
+
+
+- name: "Ensure handlers are notified now to avoid firewall conflicts"
+  meta: flush_handlers
+
+...
+# - name: Get a list of containers
+#   delegate_to: localhost
+#   become: no
+#   find:
+#     paths:
+#       - "roles/containers/media"
+#       - "roles/containers/homeautomation"
+#       - "roles/containers/services"
+#       - "roles/containers/system"
+#     file_type: directory
+#     recurse: no
+#   register: containers
+
+# - name: Stop and remove all the disabled containers
+#   become: no
+#   docker_container:
+#     name: "{{ item.path.split('/')[-1] }}"
+#     state: absent
+#   when: not lookup('vars', 'enable_' + item.path.split('/')[-1])
+#   with_items: "{{ containers.files }}"
+
+# - name: Switch to iptables-legacy
+#   alternatives:
+#     name: iptables
+#     path: /usr/sbin/iptables-legacy
+
+# - name: Switch to ip6tables-legacy
+#   alternatives:
+#     name: ip6tables
+#     path: /usr/sbin/ip6tables-legacy

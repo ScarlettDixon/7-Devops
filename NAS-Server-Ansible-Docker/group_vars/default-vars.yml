@@ -1,1 +1,10 @@
 ---
+connect: '000-connect'
+setup: '100-setup'
+containers: '200-containers'
+configuration: '300-configuration'
+security: '400-security'
+web: '500-web'
+removal: '800-removal'
+testing: '900-testing'
+...
