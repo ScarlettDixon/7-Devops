@@ -1,0 +1,29 @@
+---
+debian: true
+
+docker_deps:
+  - 'apt-transport-https'
+  - 'ca-certificates'
+  - 'gnupg2'
+  - 'curl'
+  - 'software-properties-common'
+  - 'python3-pip'
+  - 'virtualenv'
+  - 'python3-setuptools'
+  - 'docker-compose'
+
+docker_packages:
+  - 'docker.io'
+  - 'docker-registry'
+
+docker_gpg_url: 'https://download.docker.com/linux/raspbian/gpg'
+
+docker_obsolete_packages:
+  - 'docker'
+  - 'docker.io'
+  - 'docker-engine'
+  - 'docker-doc'
+  - 'podman-docker'
+  - 'containerd'
+  - 'runc'
+...

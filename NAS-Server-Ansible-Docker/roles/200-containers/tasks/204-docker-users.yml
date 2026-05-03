@@ -1,0 +1,43 @@
+---
+- name: "204 - Get docker group info using getent."
+  getent:
+    database: group
+    key: docker
+    split: ':'
+  when: docker_users | length > 0
+
+- name: "204 - Check if there are any users to add to the docker group."
+  set_fact:
+    update_Users: true
+  when:
+    - docker_users | length > 0
+    - item not in ansible_facts.getent_group["docker"][2]
+  with_items: "{{ docker_users }}"
+
+- name: "204 - Ensure docker users are added to the docker group."
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  with_items: "{{ docker_users }}"
+
+- name: "204 - Add user {{ server_user_name }} to group docker"
+  ansible.builtin.user:
+    name: '{{ server_user_name }}'
+    groups: "docker"
+    append: true
+
+- name: "204 - Reset ssh connection to apply user changes."
+  ansible.builtin.meta: reset_connection
+
+# - name: "204 - Display the groups that {{ server_user_name }} is in"
+#   shell: groups
+#   register: group_output
+
+# - debug: var=group_output
+
+# rescue:
+# - name: "204 - "Print when errors occur""
+#   ansible.builtin.debug:
+#     msg: 'There has been an error when attempting to setup the docker portion of the setup role, please edit and try again'
+...

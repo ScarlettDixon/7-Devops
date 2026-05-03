@@ -1,0 +1,7 @@
+---
+- name: "000 - connect"
+  block:
+    - name: 'Include Connection Check Task'
+      ansible.builtin.include_tasks: "001-connection.yml"
+      when: include_001 | default(False)
+...

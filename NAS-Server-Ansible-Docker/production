@@ -7,14 +7,14 @@ ansible_connection=ssh
 ansible_user=nas-admin 
 ansible_become=yes  
 ansible_become_method=sudo 
-ansible_become_pass="{{ vault_nas_password }}"
+#ansible_become_pass="{{ vault_nas_password }}"
 
-[aws]
-13.40.156.4
+#[aws]
+#13.40.156.4
 
-[aws:vars]
-ansible_connection=ssh 
-ansible_user=ubuntu 
-ansible_become=yes  
-ansible_become_method=sudo
-ansible_ssh_private_key_file=../AWSKeys/AWSKey.pem
+#[aws:vars]
+#ansible_connection=ssh 
+#ansible_user=ubuntu 
+#ansible_become=yes  
+#ansible_become_method=sudo
+#ansible_ssh_private_key_file=../AWSKeys/AWSKey.pem

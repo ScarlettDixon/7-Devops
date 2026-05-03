@@ -1,20 +1,33 @@
-[arch-linux]
-127.0.0.1
+; ansible-playbook -i staging test-server.yml
 
-[arch-linux:vars]
+; [arch-linux]
+; 127.0.0.1
+
+; [arch-linux:vars]
+; ansible_connection=ssh 
+; ansible_user=scarlett
+; ansible_become=yes  
+; ansible_become_method=sudo
+
+
+; [test-server]
+; 192.168.56.11
+
+; [test-server:vars]
+; ansible_connection=ssh
+; ansible_user=ansible
+; ansible_become=yes  
+; ansible_become_method=sudo
+
+
+[testnas]
+192.168.55.150
+#192.168.5.248
+
+[testnas:vars]
 ansible_connection=ssh 
-ansible_user=scarlett
+ansible_user=nas-admin 
 ansible_become=yes  
-ansible_become_method=sudo
-
-
-[test-server]
-192.168.56.11
-
-[test-server:vars]
-ansible_connection=ssh
-ansible_user=ansible
-ansible_become=yes  
-ansible_become_method=sudo
-
-
+ansible_become_method=sudo 
+ansible_become_pass="£Test-Logon5"
+ansible_ssh_private_key_file=/home/scarlett/.ssh/testserver

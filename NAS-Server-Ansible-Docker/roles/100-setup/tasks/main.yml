@@ -1,0 +1,11 @@
+---
+- name: "100 - setup"
+  block:
+    - name: 'Include File Generation Task'
+      ansible.builtin.include_tasks: "101-files.yml"
+      when: include_101 | default(False)
+
+    - name: 'Include Package install Task'
+      ansible.builtin.include_tasks: "102-packages.yml"
+      when: include_102 | default(False)
+...

@@ -1,0 +1,4 @@
+# # --- Dashboard ---
+#     - role: 300-configuration/dashboard
+#       tags: [display, dashboard, 300]
+#       when: include_dashboard | default(False)

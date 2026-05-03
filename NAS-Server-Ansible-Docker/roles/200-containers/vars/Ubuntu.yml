@@ -1,0 +1,38 @@
+---
+ubuntu: true
+apt: true
+
+
+# Edition can be one of: 'ce' (Community Edition) or 'ee' (Enterprise Edition).
+docker_edition: 'ce'
+docker_packages:
+  - "docker-{{ docker_edition }}"
+  - "docker-{{ docker_edition }}-cli"
+  - "docker-{{ docker_edition }}-rootless-extras"
+  - "containerd.io"
+  - docker-buildx-plugin
+  - 'cgroupfs-mount'
+docker_packages_state: present
+docker_deps:
+  - 'apt-transport-https'
+  - 'ca-certificates'
+  - 'gnupg2'
+  - 'curl'
+  - 'software-properties-common'
+  - 'python3-pip'
+  - 'virtualenv'
+  - 'python3-setuptools'
+  - 'docker-compose'
+docker_deps_state: present
+
+docker_obsolete_packages:
+  - 'docker'
+  - 'docker.io'
+  - 'docker-engine'
+  - 'docker-doc'
+  - 'podman-docker'
+  - 'containerd'
+  - 'runc'
+
+docker_gpg_url: 'https://download.docker.com/linux/ubuntu/gpg'
+...

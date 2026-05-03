@@ -1,5 +1,32 @@
 ---
-- hosts: webservers
+- name: Ansible Tasks
+  hosts: all
+
+  vars_files:
+    server-vars.yml
+
   roles:
-    - common
-    - webtier
+# --- Setup ---
+    - role: 100-setup
+      tags: [setup, 100]
+      when: include_setup | default(False)
+
+    - role: 300-configuration/low_power
+      tags: [power, 300]
+      when: include_low_power | default(False)
+
+# --- Dashboard ---
+    - role: 300-configuration/dashboard
+      tags: [display, dashboard, 300]
+      when: include_dashboard | default(False)
+
+# --- Media ---
+
+# --- Services ---
+
+# --- Disable/Shutdown ---
+    - role: 800-removal
+      tags: [power, disable, shutdown, 800]
+      when: include_remove | default(False)
+
+...
